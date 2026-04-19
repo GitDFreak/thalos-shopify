@@ -1,7 +1,7 @@
 # Runtime
 requests>=2.32.3,<3
 python-dotenv>=1.1,<2
-rich>=14.0,<15
+rich>=14.0,<16
 
 # Dev / tests
 pytest>=9.0.3,<10
