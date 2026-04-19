@@ -1,0 +1,85 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "thalos-shopify"
+version = "1.0.0"
+description = "Open source Shopify store-to-store sync tool. Clone, migrate, and mirror Shopify stores from the command line."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "AGPL-3.0-or-later"
+license-files = ["LICENSE"]
+authors = [
+    { name = "FREAKLABS", email = "hello@freaklabs.io" },
+]
+keywords = [
+    "shopify",
+    "sync",
+    "migration",
+    "clone",
+    "ecommerce",
+    "cli",
+    "thalos",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Office/Business",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Archiving :: Mirroring",
+]
+dependencies = [
+    "requests>=2.32.3,<3",
+    "python-dotenv>=1.1,<2",
+    "rich>=14.0,<15",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=9.0.3,<10",
+    "responses>=0.25,<1",
+    "bandit>=1.7,<2",
+    "pip-audit>=2.7,<3",
+    "ruff>=0.7,<1",
+]
+
+[project.urls]
+Homepage = "https://github.com/GitDFreak/thalos-shopify"
+Documentation = "https://github.com/GitDFreak/thalos-shopify#readme"
+Repository = "https://github.com/GitDFreak/thalos-shopify"
+Issues = "https://github.com/GitDFreak/thalos-shopify/issues"
+"Hosted platform" = "https://thalos.freaklabs.io"
+
+# Invoke via `python -m thalos`.  A `[project.scripts]` console entry point
+# is deferred until main.py is refactored into a reusable `main()` function.
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["thalos*"]
+exclude = ["tests*", "snapshot_store*"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "C4"]
+ignore = ["E501"]  # line-too-long handled by formatter
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-q --strict-markers"

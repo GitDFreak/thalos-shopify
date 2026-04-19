@@ -1,0 +1,48 @@
+# Dependabot config — auto-PRs for dep upgrades + security alerts.
+# Docs: https://docs.github.com/en/code-security/dependabot
+
+version: 2
+updates:
+
+  # Python runtime + dev dependencies
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Paris"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "python"
+    # Group patch + minor bumps together to cut PR noise; major bumps stay
+    # one-per-PR so breaking changes get their own review.
+    groups:
+      python-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+
+  # Docker base image (Dockerfile FROM python:3.13-slim@sha256:...)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "docker"
+    commit-message:
+      prefix: "deps(docker)"
+
+  # GitHub Actions workflow files themselves
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    labels:
+      - "dependencies"
+      - "ci"

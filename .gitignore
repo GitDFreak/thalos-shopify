@@ -1,0 +1,42 @@
+# ── Secrets (never commit) ───────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# ── Local runtime state ──────────────────────────────────────────────
+snapshot_store/
+sync_state.json
+sync_history.jsonl
+sync_report.html
+
+# ── Python ───────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ── Docker / compose overrides (local dev) ───────────────────────────
+docker-compose.override.yml
+docker-compose.override.yaml
+
+# ── Editor / OS ──────────────────────────────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# ── Build artifacts ──────────────────────────────────────────────────
+dist/
+build/
+*.log

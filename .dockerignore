@@ -1,0 +1,39 @@
+# Secrets
+.env
+.env.*
+*.key
+*.pem
+
+# Local state
+snapshot_store/
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Tests (not needed in runtime image)
+tests/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+*.log

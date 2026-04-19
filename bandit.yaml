@@ -1,0 +1,10 @@
+# Bandit (SAST Python) configuration.
+# Run: bandit -c bandit.yaml -r .
+#
+# Test IDs: https://bandit.readthedocs.io/en/latest/plugins/index.html
+
+exclude_dirs:
+  - tests
+
+skips:
+  - B101    # assert_used (pytest uses asserts; app code is clean).

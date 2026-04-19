@@ -1,0 +1,12 @@
+# Runtime
+requests>=2.32.3,<3
+python-dotenv>=1.1,<2
+rich>=14.0,<15
+
+# Dev / tests
+pytest>=9.0.3,<10
+responses>=0.25,<1
+
+# Security tooling (CI)
+bandit>=1.7,<2
+pip-audit>=2.7,<3

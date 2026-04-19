@@ -1,0 +1,32 @@
+name: Feature request
+description: Suggest a new capability or section.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to accomplish that the tool doesn't support today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: How should this work from the user's perspective? (CLI flag? new section? behavior change?)
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Did you try a workaround? Are there other tools that do this?
+
+  - type: markdown
+    attributes:
+      value: |
+        Features that turn `thalos-shopify` into a multi-user or web-UI tool
+        are out of scope — the hosted [THALOS](https://thalos.freaklabs.io)
+        platform handles those.

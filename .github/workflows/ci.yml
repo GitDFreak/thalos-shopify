@@ -1,0 +1,100 @@
+name: ci
+
+# SAST (bandit, semgrep), dependency CVE scan (pip-audit), secret scan,
+# lint, and functional tests on every push + PR + weekly cron.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1"
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+
+  lint:
+    name: ruff (lint + format)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: "pip"
+      - run: pip install ruff
+      - run: ruff check .
+      - run: ruff format --check .
+
+  bandit:
+    name: bandit (Python SAST)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: "pip"
+      - run: pip install bandit
+      - run: bandit -c bandit.yaml -r . -f txt
+
+  pip-audit:
+    name: pip-audit (dependency CVEs)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: "pip"
+      - run: pip install pip-audit
+      - run: pip-audit -r requirements.txt --strict
+
+  semgrep:
+    name: semgrep (pattern SAST)
+    runs-on: ubuntu-latest
+    container: returntocorp/semgrep:latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          semgrep scan \
+            --config p/default \
+            --config p/python \
+            --config p/owasp-top-ten \
+            --error \
+            --exclude=tests
+
+  trufflehog:
+    name: trufflehog (secret scan)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: scan for secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+          extra_args: --only-verified
+
+  tests:
+    name: pytest (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+      - run: pip install -r requirements.txt
+      - run: pytest -q
