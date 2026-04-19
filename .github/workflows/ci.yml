@@ -21,7 +21,7 @@ jobs:
     name: ruff (lint + format)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
@@ -34,7 +34,7 @@ jobs:
     name: bandit (Python SAST)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
@@ -46,7 +46,7 @@ jobs:
     name: pip-audit (dependency CVEs)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     container: returntocorp/semgrep:latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: |
           semgrep scan \
             --config p/default \
@@ -72,7 +72,7 @@ jobs:
     name: trufflehog (secret scan)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: scan for secrets
@@ -91,7 +91,7 @@ jobs:
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
